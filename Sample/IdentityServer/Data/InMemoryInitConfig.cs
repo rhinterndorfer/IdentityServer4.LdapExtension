@@ -57,7 +57,10 @@ namespace QuickstartIdentityServer
                     PostLogoutRedirectUris = {
                         "http://localhost:8181/apex/f?p=100",
                         "http://localhost:8080/ords/f?p=100",
-                        "https://dev.rammelhof.at/ords/f?p=100" 
+                        "https://dev.rammelhof.at/ords/f?p=100",
+                        "http://localhost:8181/apex/f?p=4550",
+                        "http://localhost:8080/ords/f?p=4550",
+                        "https://dev.rammelhof.at/ords/f?p=4550",
                     },
                     AllowedScopes =
                     {
