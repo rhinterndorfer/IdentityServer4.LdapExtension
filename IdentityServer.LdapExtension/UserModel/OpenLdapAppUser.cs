@@ -47,6 +47,7 @@ namespace IdentityServer.LdapExtension.UserModel
             // Example in LDAP we have display name as displayName (normal field)
             this.Claims = new List<Claim>
                 {
+                    GetClaimFromLdapAttributes(user, JwtClaimTypes.Id, OpenLdapAttributes.Name),
                     GetClaimFromLdapAttributes(user, JwtClaimTypes.Name, OpenLdapAttributes.DisplayName),
                     GetClaimFromLdapAttributes(user, JwtClaimTypes.FamilyName, OpenLdapAttributes.LastName),
                     GetClaimFromLdapAttributes(user, JwtClaimTypes.GivenName, OpenLdapAttributes.FirstName),
@@ -102,7 +103,8 @@ namespace IdentityServer.LdapExtension.UserModel
         public void SetBaseDetails(LdapEntry ldapEntry, string providerName)
         {
             DisplayName = ldapEntry.getAttribute(OpenLdapAttributes.DisplayName.ToDescriptionString()).StringValue;
-            Username = ldapEntry.getAttribute(OpenLdapAttributes.UserName.ToDescriptionString()).StringValue;
+            Username = ldapEntry.getAttribute(OpenLdapAttributes.UserName.ToDescriptionString())?.StringValue;
+            
             ProviderName = providerName;
             SubjectId = Username; // Extra: We could use the uidNumber instead in a sha algo.
             ProviderSubjectId = Username;

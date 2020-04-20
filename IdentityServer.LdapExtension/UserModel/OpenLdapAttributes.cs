@@ -16,9 +16,9 @@ namespace IdentityServer.LdapExtension.UserModel
         Description,
         [Description("telephoneNumber")]
         TelephoneNumber,
-        [Description("uid")] // Also used as user name
+        [Description("cn")] // Also used as user name
         Name,
-        [Description("uid")]
+        [Description("sAMAccountName")]
         UserName,
         [Description("mail")]
         EMail,

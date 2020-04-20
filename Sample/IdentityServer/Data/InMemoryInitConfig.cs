@@ -16,6 +16,10 @@ namespace QuickstartIdentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Email(),
+                new IdentityResources.Phone(),
+                new IdentityServer.LdapExtension.Models.Roles(),
+
             };
         }
 
@@ -33,75 +37,35 @@ namespace QuickstartIdentityServer
             // client credentials client
             return new List<Client>
             {
+                // OpenID Connect 
                 new Client
                 {
-                    ClientId = "client",
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                    ClientSecrets = 
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = { "api1" }
-                },
-
-                // resource owner password grant client
-                new Client
-                {
-                    ClientId = "ro.client",
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-
-                    ClientSecrets = 
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = { "api1" }
-                },
-
-                // OpenID Connect implicit flow client (MVC)
-                new Client
-                {
-
-                    ClientId = "mvc",
-                    ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    ClientId = "PLAYGROUND",
+                    ClientName = "PLAYGROUND",
+                    AllowedGrantTypes = GrantTypes.Code,
 
                     ClientSecrets =
                     {
-                        new Secret("secret".Sha256())
+                        new Secret("MyPlaygroundSecret".Sha256())
                     },
 
-                    RedirectUris = { "http://localhost:5002/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
-
+                    RedirectUris = { 
+                        "http://localhost:8181/apex/apex_authentication.callback",
+                        "http://localhost:8080/ords/apex_authentication.callback",
+                        "https://dev.rammelhof.at/ords/apex_authentication.callback"
+                    },
+                    PostLogoutRedirectUris = {
+                        "http://localhost:8181/apex/f?p=100",
+                        "http://localhost:8080/ords/f?p=100",
+                        "https://dev.rammelhof.at/ords/f?p=100" 
+                    },
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "api1"
-                    },
-                    AllowOfflineAccess = true
-                },
-
-                // OpenID Connect implicit flow client (MVC with vue js)
-                new Client
-                {
-                    ClientId = "mvcvue",
-                    ClientName = "MVC VueJS Client",
-                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-
-                    RedirectUris = { "http://localhost:5006/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:5006/signout-callback-oidc" },
-
-                    AllowedScopes =
-                    {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.Phone,
+                        "roles",
                         "api1"
                     },
                     AllowOfflineAccess = true
